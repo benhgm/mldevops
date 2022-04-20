@@ -1,2 +1,2 @@
-# mldevops
-Machine Learning DevOps Nanodegree
+# Machine Learning DevOps
+Repository for Udacity Machine Learning DevOps Nanodegree Program
