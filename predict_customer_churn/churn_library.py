@@ -32,3 +32,6 @@ def import_data(pth):
         df: pandas dataframe
     """
     return pd.read_csv("./data/bank_data.csv")
+
+def perform_eda(df):
+    
