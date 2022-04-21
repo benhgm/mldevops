@@ -22,7 +22,7 @@ sns.set()
 
 def import_data(pth):
     """
-    returns a dataframe (df) for the csv file at pth
+    Returns a dataframe (df) for the csv file at pth
 
     Args:
         pth (str): path to the .csv data file
@@ -34,6 +34,16 @@ def import_data(pth):
 
 
 def perform_eda(df):
+    """
+    Function for performing Explorative Data Analysis (EDA)
+    Function does the following:
+    1. Visualizes input dataframe
+    2. Checks for missing data and alerts user
+    3. Displays various plots for analysis
+
+    Args:
+        df (pandas dataframe): pandas dataframe object
+    """
     # visualize data
     print(df.head())
     print("The size of the data is: ", df.shape)
@@ -42,5 +52,61 @@ def perform_eda(df):
             df.shape[1],
             df.shape[0]))
 
-    # check if there is any empty data
-    print(df.isnull().sum())
+    # check if there is any missing numbered data
+    is_null_table = df.isnull().sum()
+    print(is_null_table)
+    df.info()
+    assert is_null_table.all(
+    ) == 0, "There are missing values in the data. Please clean up missing data before continuing."
+
+    # visualize general statistics
+    print(df.describe())
+
+    # group columns into categories
+    cat_columns = ['Gender',
+                   'Education_Level',
+                   'Marital_Status',
+                   'Income_Category',
+                   'Card_Category']
+
+    quant_columns = ['Customer_Age',
+                     'Dependent_count',
+                     'Months_on_book',
+                     'Total_Relationship_Count',
+                     'Months_Inactive_12_mon',
+                     'Contacts_Count_12_mon',
+                     'Credit_Limit',
+                     'Total_Revolving_Bal',
+                     'Avg_Open_To_Buy',
+                     'Total_Amt_Chng_Q4_Q1',
+                     'Total_Trans_Amt',
+                     'Total_Trans_Ct',
+                     'Total_Ct_Chng_Q4_Q1',
+                     'Avg_Utilization_Ratio']
+
+    df['Churn'] = df['Attrition_Flag'].apply(
+        lambda val: 0 if val == "Existing Customer" else 1)
+
+    # Initialize figure
+    fig, axs = plt.subplots(2, 1, figsize=(20, 10))
+
+    # Visualize univariate plots
+    axs[0].set_title('Customer Age')
+    df['Customer_Age'].hist(ax=axs[0])
+    axs[1].set_title('Marital Status')
+    df.Marital_Status.value_counts('normalize').plot(kind='bar', ax=axs[1])
+    plt.savefig('./images/eda_univariate_plots.jpg')
+    plt.show()
+    plt.close()
+
+    # Visualize bivariate plot
+    sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
+    plt.title('Heat Map of Bivariate Relationships')
+    plt.savefig('./images/eda_bivariate_plot.jpg')
+    plt.show()
+
+
+if __name__ == "__main__":
+    path = "./data/bank_data.csv"
+    df = import_data(path)
+    perform_eda(df)
