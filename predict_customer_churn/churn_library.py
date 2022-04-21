@@ -62,28 +62,6 @@ def perform_eda(df):
     # visualize general statistics
     print(df.describe())
 
-    # group columns into categories
-    cat_columns = ['Gender',
-                   'Education_Level',
-                   'Marital_Status',
-                   'Income_Category',
-                   'Card_Category']
-
-    quant_columns = ['Customer_Age',
-                     'Dependent_count',
-                     'Months_on_book',
-                     'Total_Relationship_Count',
-                     'Months_Inactive_12_mon',
-                     'Contacts_Count_12_mon',
-                     'Credit_Limit',
-                     'Total_Revolving_Bal',
-                     'Avg_Open_To_Buy',
-                     'Total_Amt_Chng_Q4_Q1',
-                     'Total_Trans_Amt',
-                     'Total_Trans_Ct',
-                     'Total_Ct_Chng_Q4_Q1',
-                     'Avg_Utilization_Ratio']
-
     df['Churn'] = df['Attrition_Flag'].apply(
         lambda val: 0 if val == "Existing Customer" else 1)
 
@@ -96,17 +74,85 @@ def perform_eda(df):
     axs[1].set_title('Marital Status')
     df.Marital_Status.value_counts('normalize').plot(kind='bar', ax=axs[1])
     plt.savefig('./images/eda_univariate_plots.jpg')
-    plt.show()
+    # plt.show()
     plt.close()
 
     # Visualize bivariate plot
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     plt.title('Heat Map of Bivariate Relationships')
     plt.savefig('./images/eda_bivariate_plot.jpg')
-    plt.show()
+    # plt.show()
+
+
+def encoder_helper(df, category_list):
+    """
+    Function to encode each categorical column into a new column representing
+    the proportion of total churn
+
+    Args:
+        df: pandas dataframe
+        category_list: list of names of columns with categorical data
+    """
+    for category in category_list:
+        new_category_list = []
+        category_groups = df.groupby(category).mean()['Churn']
+        for val in df[category]:
+            new_category_list.append(category_groups.loc[val])
+        new_category_name = category + '_Churn'
+        df[new_category_name] = new_category_list
+
+
+def perform_feature_engineering(df, cols_to_keep):
+    y = df['Churn']
+    X = pd.DataFrame()
+    X[cols_to_keep] = df[cols_to_keep]
+    X_train, X_test, y_train, y_test = train_test_split(X,
+                                                        y,
+                                                        test_size=0.3,
+                                                        random_state=42)
+    return X_train, X_test, y_train, y_test
 
 
 if __name__ == "__main__":
     path = "./data/bank_data.csv"
     df = import_data(path)
     perform_eda(df)
+
+    # group columns into categories
+    cat_columns = [
+        'Gender',
+        'Education_Level',
+        'Marital_Status',
+        'Income_Category',
+        'Card_Category'
+    ]
+
+    encoder_helper(df, cat_columns)
+
+    cols_to_keep = [
+        'Customer_Age', 'Dependent_count', 'Months_on_book',
+        'Total_Relationship_Count', 'Months_Inactive_12_mon',
+        'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
+        'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
+        'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
+        'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
+        'Income_Category_Churn', 'Card_Category_Churn'
+    ]
+
+    X_train, X_test, y_train, y_test = perform_feature_engineering(
+        df, cols_to_keep)
+
+    # quant_columns = ['Customer_Age',
+    #                  'Dependent_count',
+    #                  'Months_on_book',
+    #                  'Total_Relationship_Count',
+    #                  'Months_Inactive_12_mon',
+    #                  'Contacts_Count_12_mon',
+    #                  'Credit_Limit',
+    #                  'Total_Revolving_Bal',
+    #                  'Avg_Open_To_Buy',
+    #                  'Total_Amt_Chng_Q4_Q1',
+    #                  'Total_Trans_Amt',
+    #                  'Total_Trans_Ct',
+    #                  'Total_Ct_Chng_Q4_Q1',
+    #                  'Avg_Utilization_Ratio']

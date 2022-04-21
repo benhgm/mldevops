@@ -16,6 +16,12 @@ logging.basicConfig(
     format='%(name)s - %(levelname)s - %(message)s')
 
 DF = churn.import_data("./data/bank_data.csv")
+CAT_COLUMNS = ['Gender',
+               'Education_Level',
+               'Marital_Status',
+               'Income_Category',
+               'Card_Category']
+
 
 def test_import():
     '''
@@ -36,6 +42,7 @@ def test_import():
             "Testing import_data: The file doesn't appear to have rows and columns")
         raise err
 
+
 def test_eda():
     '''
     test eda function
@@ -51,6 +58,25 @@ def test_eda():
         )
         raise err
 
+
+def test_encoder_helper():
+    '''
+    test the encoder helper function
+    '''
+    try:
+        num_columns_before = DF.shape[1]
+        churn.encoder_helper(DF, CAT_COLUMNS)
+        num_columns_after = DF.shape[1]
+        assert num_columns_after - num_columns_before == 5
+        logging.info("Testing encoder_helper: SUCCESS")
+    except AssertionError as err:
+        logging.error(
+            "Testing encoder_helper: Some categorical data were not encoded"
+        )
+        raise err
+
+
 if __name__ == "__main__":
     test_import()
     test_eda()
+    test_encoder_helper()
