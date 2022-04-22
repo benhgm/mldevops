@@ -6,8 +6,16 @@ Last Updated On: Apr 2022
 """
 
 import os
+import pytest
 import logging
 import churn_library as churn
+
+from sklearn.metrics import plot_roc_curve, classification_report
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import normalize
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -15,7 +23,9 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
-DF = churn.import_data("./data/bank_data.csv")
+DATA_PATH = "./data/bank_data.csv"
+
+DF = churn.import_data(DATA_PATH)
 
 CAT_COLUMNS = ['Gender',
                'Education_Level',

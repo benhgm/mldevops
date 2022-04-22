@@ -175,6 +175,9 @@ def make_text_plot(title, text, show=True):
         plt.close()
 
 
+
+
+
 if __name__ == "__main__":
     path = "./data/bank_data.csv"
     df = import_data(path)
