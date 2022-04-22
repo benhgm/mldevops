@@ -16,11 +16,22 @@ logging.basicConfig(
     format='%(name)s - %(levelname)s - %(message)s')
 
 DF = churn.import_data("./data/bank_data.csv")
+
 CAT_COLUMNS = ['Gender',
                'Education_Level',
                'Marital_Status',
                'Income_Category',
                'Card_Category']
+
+COLS_TO_KEEP = [
+    'Customer_Age', 'Dependent_count', 'Months_on_book',
+    'Total_Relationship_Count', 'Months_Inactive_12_mon',
+    'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
+    'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
+    'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
+    'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
+    'Income_Category_Churn', 'Card_Category_Churn'
+]
 
 
 def test_import():
@@ -76,7 +87,25 @@ def test_encoder_helper():
         raise err
 
 
+def test_perform_feature_engineering():
+    '''
+    test the feature engineering function
+    '''
+    try:
+        X_train, X_test, y_train, y_test = churn.perform_feature_engineering(
+            DF, COLS_TO_KEEP)
+        assert X_train.shape[0] == y_train.shape[0]
+        assert X_test.shape[0] == y_test.shape[0]
+        logging.info("Testing perform_feature_engineering: SUCCESS")
+    except AssertionError as err:
+        logging.error(
+            "Testing perform_feature_engineering: The training and test sets have different shapes."
+        )
+        raise err
+
+
 if __name__ == "__main__":
     test_import()
     test_eda()
     test_encoder_helper()
+    test_perform_feature_engineering()

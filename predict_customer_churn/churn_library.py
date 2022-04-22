@@ -5,6 +5,7 @@ Author: Benjamin Ho
 Last update: Apr 2022
 """
 
+from random import Random
 from sklearn.metrics import plot_roc_curve, classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -103,6 +104,19 @@ def encoder_helper(df, category_list):
 
 
 def perform_feature_engineering(df, cols_to_keep):
+    """
+    Function to split the dataframe into training and test sets
+
+    Args:
+        df: pandas dataframe
+        cols_to_keep: list of columns to retain as features for the model
+
+    Returns:
+        X_train (arr): Array of training features
+        X_test (arr): Array of test features
+        y_train (arr): Array of training outputs
+        y_test (arr): Array of test outputs
+    """
     y = df['Churn']
     X = pd.DataFrame()
     X[cols_to_keep] = df[cols_to_keep]
@@ -111,6 +125,54 @@ def perform_feature_engineering(df, cols_to_keep):
                                                         test_size=0.3,
                                                         random_state=42)
     return X_train, X_test, y_train, y_test
+
+
+def classification_report_image(y_train,
+                                y_test,
+                                predictions):
+    """
+    Function to generate a scikit-image classification report and save it as an image
+
+    Args:
+        y_train (arr): array of training outputs
+        y_test (arr): array of test outputs
+        predictions (arr): array of predictions from the classifier
+    """
+    for key, _ in predictions.items():
+        if "test" in key:
+            print("Classification report for", key)
+            results = classification_report(y_test, predictions[key])
+            print(results)
+            make_text_plot(key, results)
+        if "train" in key:
+            print("Classification report for", key)
+            results = classification_report(y_train, predictions[key])
+            print(results)
+            make_text_plot(key, results)
+
+
+def make_text_plot(title, text, show=True):
+    """
+    Creates a plot for a skimage classification report and saves it as a jpg image
+
+    Args:
+        title (str): Title of the plot
+        text: scikit-image classification report
+        show (bool, optional): whether to show the plot or not. Defaults to True.
+    """
+    text_kwargs = dict(ha='center', va='center', fontsize=20)
+    title_font = {'family': 'serif',
+                  'color': 'darkred',
+                  'weight': 'bold',
+                  'size': 24}
+    plt.subplots()
+    plt.text(0.5, 0.5, text, **text_kwargs)
+    plt.title(title, fontdict=title_font)
+    plt.axis('off')
+    plt.savefig('./images/' + title + '.jpg')
+    if show:
+        plt.show()
+        plt.close()
 
 
 if __name__ == "__main__":
@@ -141,6 +203,31 @@ if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = perform_feature_engineering(
         df, cols_to_keep)
+
+    # init a RandomForestClassifier
+    rfc = RandomForestClassifier(random_state=42)
+
+    param_grid = {
+        'n_estimators': [200, 500],
+        'max_features': ['auto', 'sqrt'],
+        'max_depth': [4, 5, 100],
+        'criterion': ['gini', 'entropy']
+    }
+
+    cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+    cv_rfc.fit(X_train, y_train)
+
+    # init a Logistic Regressor
+    lrc = LogisticRegression(solver='lbfgs', max_iter=3000)
+    lrc.fit(X_train, y_train)
+
+    preds = {}
+    preds["y_train_rf"] = cv_rfc.best_estimator_.predict(X_train)
+    preds["y_test_rf"] = cv_rfc.best_estimator_.predict(X_test)
+    preds["y_train_lr"] = lrc.predict(X_train)
+    preds["y_test_lr"] = lrc.predict(X_test)
+
+    classification_report_image(y_train, y_test, preds)
 
     # quant_columns = ['Customer_Age',
     #                  'Dependent_count',
