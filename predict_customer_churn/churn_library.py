@@ -5,15 +5,8 @@ Author: Benjamin Ho
 Last update: Apr 2022
 """
 
-from random import Random
 from sklearn.metrics import plot_roc_curve, classification_report
-from sklearn.model_selection import GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import normalize
-import shap
-import joblib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,7 +24,7 @@ def import_data(pth):
     Returns:
         df: pandas dataframe
     """
-    return pd.read_csv("./data/bank_data.csv")
+    return pd.read_csv(pth)
 
 
 def perform_eda(df):
@@ -67,7 +60,7 @@ def perform_eda(df):
         lambda val: 0 if val == "Existing Customer" else 1)
 
     # Initialize figure
-    fig, axs = plt.subplots(2, 1, figsize=(20, 10))
+    _, axs = plt.subplots(2, 1, figsize=(20, 10))
 
     # Visualize univariate plots
     axs[0].set_title('Customer Age')
@@ -93,7 +86,7 @@ def encoder_helper(df, category_list):
     Args:
         df: pandas dataframe
         category_list: list of names of columns with categorical data
-    
+
     Returns:
         df: pandas dataframe
     """
@@ -200,83 +193,25 @@ def feature_importance_plot(importances, X_data, output_pth):
 
 
 def plot_roc_curves(lrc_model, rfc_model, X_test, y_test, output_path):
+    """
+    Function to plot the roc curves
+
+    Args:
+        lrc_model: scikit-image LogisticRegression model object
+        rfc_model (): scikit-image RandomForesClassifier model object
+        X_test (arr): array of test inputs
+        y_test (arr): array of test outputs
+        output_path (str): output path to save the roc plot
+    """
     lrc_plot = plot_roc_curve(lrc_model, X_test, y_test)
 
     plt.figure(figsize=(15, 8))
     ax = plt.gca()
-    rfc_disp = plot_roc_curve(rfc_model.best_estimator_, X_test, y_test, ax=ax, alpha=0.8)
+    rfc_disp = plot_roc_curve(
+        rfc_model.best_estimator_,
+        X_test,
+        y_test,
+        ax=ax,
+        alpha=0.8)
     lrc_plot.plot(ax=ax, alpha=0.8)
     plt.savefig(output_path)
-
-
-if __name__ == "__main__":
-    path = "./data/bank_data.csv"
-    df = import_data(path)
-    perform_eda(df)
-
-    # group columns into categories
-    cat_columns = [
-        'Gender',
-        'Education_Level',
-        'Marital_Status',
-        'Income_Category',
-        'Card_Category'
-    ]
-
-    encoder_helper(df, cat_columns)
-
-    cols_to_keep = [
-        'Customer_Age', 'Dependent_count', 'Months_on_book',
-        'Total_Relationship_Count', 'Months_Inactive_12_mon',
-        'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
-        'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
-        'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
-        'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
-        'Income_Category_Churn', 'Card_Category_Churn'
-    ]
-
-    X_train, X_test, y_train, y_test = perform_feature_engineering(
-        df, cols_to_keep)
-
-    # init a RandomForestClassifier
-    rfc = RandomForestClassifier(random_state=42)
-
-    param_grid = {
-        'n_estimators': [200, 500],
-        'max_features': ['auto', 'sqrt'],
-        'max_depth': [4, 5, 100],
-        'criterion': ['gini', 'entropy']
-    }
-
-    cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
-    cv_rfc.fit(X_train, y_train)
-
-    # init a Logistic Regressor
-    lrc = LogisticRegression(solver='lbfgs', max_iter=3000)
-    lrc.fit(X_train, y_train)
-
-    preds = {}
-    preds["y_train_rf"] = cv_rfc.best_estimator_.predict(X_train)
-    preds["y_test_rf"] = cv_rfc.best_estimator_.predict(X_test)
-    preds["y_train_lr"] = lrc.predict(X_train)
-    preds["y_test_lr"] = lrc.predict(X_test)
-
-    classification_report_image(y_train, y_test, preds)
-
-    importances = cv_rfc.best_estimator_.feature_importances_
-    feature_importance_plot(importances, )
-
-    # quant_columns = ['Customer_Age',
-    #                  'Dependent_count',
-    #                  'Months_on_book',
-    #                  'Total_Relationship_Count',
-    #                  'Months_Inactive_12_mon',
-    #                  'Contacts_Count_12_mon',
-    #                  'Credit_Limit',
-    #                  'Total_Revolving_Bal',
-    #                  'Avg_Open_To_Buy',
-    #                  'Total_Amt_Chng_Q4_Q1',
-    #                  'Total_Trans_Amt',
-    #                  'Total_Trans_Ct',
-    #                  'Total_Ct_Chng_Q4_Q1',
-    #                  'Avg_Utilization_Ratio']

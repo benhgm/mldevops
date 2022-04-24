@@ -6,16 +6,8 @@ Last Updated On: Apr 2022
 """
 
 import os
-import pytest
 import logging
 import churn_library as churn
-
-from sklearn.metrics import plot_roc_curve, classification_report
-from sklearn.model_selection import GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import normalize
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -23,25 +15,23 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
-DATA_PATH = "./data/bank_data.csv"
+cat_columns = [
+        "Gender",
+        "Education_Level",
+        "Marital_Status",
+        "Income_Category",
+        "Card_Category"
+    ]
 
-DF = churn.import_data(DATA_PATH)
-
-CAT_COLUMNS = ['Gender',
-               'Education_Level',
-               'Marital_Status',
-               'Income_Category',
-               'Card_Category']
-
-COLS_TO_KEEP = [
-    'Customer_Age', 'Dependent_count', 'Months_on_book',
-    'Total_Relationship_Count', 'Months_Inactive_12_mon',
-    'Contacts_Count_12_mon', 'Credit_Limit', 'Total_Revolving_Bal',
-    'Avg_Open_To_Buy', 'Total_Amt_Chng_Q4_Q1', 'Total_Trans_Amt',
-    'Total_Trans_Ct', 'Total_Ct_Chng_Q4_Q1', 'Avg_Utilization_Ratio',
-    'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
-    'Income_Category_Churn', 'Card_Category_Churn'
-]
+cols_to_keep = [
+        "Customer_Age", "Dependent_count", "Months_on_book",
+        "Total_Relationship_Count", "Months_Inactive_12_mon",
+        "Contacts_Count_12_mon", "Credit_Limit", "Total_Revolving_Bal",
+        "Avg_Open_To_Buy", "Total_Amt_Chng_Q4_Q1", "Total_Trans_Amt",
+        "Total_Trans_Ct", "Total_Ct_Chng_Q4_Q1", "Avg_Utilization_Ratio",
+        "Gender_Churn", "Education_Level_Churn", "Marital_Status_Churn",
+        "Income_Category_Churn", "Card_Category_Churn"
+    ]
 
 
 def test_import():
@@ -69,7 +59,6 @@ def test_eda():
     test eda function
     '''
     try:
-        churn.perform_eda(DF)
         assert os.path.isfile('./images/eda_bivariate_plot.jpg')
         assert os.path.isfile('./images/eda_univariate_plots.jpg')
         logging.info("Testing perform_eda: SUCCESS")
@@ -85,11 +74,15 @@ def test_encoder_helper():
     test the encoder helper function
     '''
     try:
-        num_columns_before = DF.shape[1]
-        churn.encoder_helper(DF, CAT_COLUMNS)
-        num_columns_after = DF.shape[1]
+        df = churn.import_data('./data/bank_data.csv')
+        churn.perform_eda(df)
+        num_columns_before = df.shape[1]
+        df = churn.encoder_helper(df, cat_columns)
+        churn.encoder_helper(df, cat_columns)
+        num_columns_after = df.shape[1]
         assert num_columns_after - num_columns_before == 5
         logging.info("Testing encoder_helper: SUCCESS")
+        return df
     except AssertionError as err:
         logging.error(
             "Testing encoder_helper: Some categorical data were not encoded"
@@ -102,14 +95,48 @@ def test_perform_feature_engineering():
     test the feature engineering function
     '''
     try:
-        X_train, X_test, y_train, y_test = churn.perform_feature_engineering(
-            DF, COLS_TO_KEEP)
+        df = churn.import_data('./data/bank_data.csv')
+        churn.perform_eda(df)
+        df = churn.encoder_helper(df, cat_columns)
+        _, X_train, X_test, y_train, y_test = churn.perform_feature_engineering(
+            df, cols_to_keep)
         assert X_train.shape[0] == y_train.shape[0]
         assert X_test.shape[0] == y_test.shape[0]
         logging.info("Testing perform_feature_engineering: SUCCESS")
+        return _, X_train, X_test, y_train, y_test
     except AssertionError as err:
         logging.error(
             "Testing perform_feature_engineering: The training and test sets have different shapes."
+        )
+        raise err
+
+
+def test_train_model():
+    '''
+    test the train model
+    '''
+    test_image_titles = ['feature_importances.jpg',
+                         'roc_curves.jpg',
+                         'shap.jpg']
+    model_titles = ['logistic_model.pkl',
+                    'rfc_model.pkl']
+    try:
+        for image_name in test_image_titles:
+            assert os.path.isfile('./images/' + image_name)
+            logging.info("Testing for saved plots: SUCCESS")
+    except AssertionError as err:
+        logging.error(
+            "Testing for saved plots: Image not saved"
+        )
+        raise err
+    
+    try:
+        for model_name in model_titles:
+            assert os.path.isfile('./models/' + model_name)
+            logging.info("Testing for saved models: SUCCESS")
+    except AssertionError as err:
+        logging.error(
+            "Testing for saved models: Model not saved"
         )
         raise err
 
@@ -119,3 +146,4 @@ if __name__ == "__main__":
     test_eda()
     test_encoder_helper()
     test_perform_feature_engineering()
+    test_train_model()

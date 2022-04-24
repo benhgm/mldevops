@@ -5,7 +5,9 @@ Author: Benjamin Ho
 Last update: Apr 2022
 """
 import json
+import shap
 import joblib
+import matplotlib.pyplot as plt
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -50,7 +52,7 @@ class Predictor():
         """
         # get data
         self.data = {}
-        self.data['raw_input'] = cl.import_data(self.data_path)
+        self.data['raw_input'] = cl.import_data(self.data_path + 'bank_data.csv')
 
         # perform eda
         cl.perform_eda(self.data['raw_input'])
@@ -86,8 +88,8 @@ class Predictor():
             self.data['X_train'])
         self.preds["y_test_rf"] = self.cv_rfc.best_estimator_.predict(
             self.data['X_test'])
-        self.preds["y_train_lr"] = self.lrc.predict(self.data['y_train'])
-        self.preds["y_test_lr"] = self.lrc.predict(self.data['y_test'])
+        self.preds["y_train_lr"] = self.lrc.predict(self.data['X_train'])
+        self.preds["y_test_lr"] = self.lrc.predict(self.data['X_test'])
 
     def post_process_results(self):
         """
@@ -96,24 +98,33 @@ class Predictor():
         - Save trained model
         """
         # generate classification report
-        cl.classification_report(self.data['y_train'],
-                                 self.data['y_test'],
-                                 self.preds)
+        cl.classification_report_image(self.data['y_train'],
+                                       self.data['y_test'],
+                                       self.preds)
 
         # generate feature importance plots
         importances = self.cv_rfc.best_estimator_.feature_importances_
-        output_path = self.images_path + '/feature_importances.jpg'
+        output_path = self.images_path + 'feature_importances.jpg'
         cl.feature_importance_plot(importances,
                                    self.data['X_filtered'],
                                    output_path)
 
         # plot roc curves
-        roc_output = self.images_path + '/roc_curves.jpg'
+        roc_output = self.images_path + 'roc_curves.jpg'
         cl.plot_roc_curves(self.lrc,
                            self.cv_rfc,
                            self.data['X_test'],
                            self.data['y_test'],
                            roc_output)
+        
+        # generate SHAP explainer plot
+        explainer = shap.TreeExplainer(self.cv_rfc.best_estimator_)
+        shap_values = explainer.shap_values(self.data['X_test'])
+        shap.summary_plot(shap_values,
+                          self.data['X_test'],
+                          plot_type="bar",
+                          show=False)
+        plt.savefig(self.images_path + 'shap.jpg')
 
         # save models
         joblib.dump(self.cv_rfc.best_estimator_, './models/rfc_model.pkl')
