@@ -1,5 +1,5 @@
 """
-<<Description of file>>
+Library of functions for predicting customer churn
 
 Author: Benjamin Ho
 Last update: Apr 2022
@@ -93,6 +93,9 @@ def encoder_helper(df, category_list):
     Args:
         df: pandas dataframe
         category_list: list of names of columns with categorical data
+    
+    Returns:
+        df: pandas dataframe
     """
     for category in category_list:
         new_category_list = []
@@ -101,6 +104,7 @@ def encoder_helper(df, category_list):
             new_category_list.append(category_groups.loc[val])
         new_category_name = category + '_Churn'
         df[new_category_name] = new_category_list
+    return df
 
 
 def perform_feature_engineering(df, cols_to_keep):
@@ -124,7 +128,7 @@ def perform_feature_engineering(df, cols_to_keep):
                                                         y,
                                                         test_size=0.3,
                                                         random_state=42)
-    return X_train, X_test, y_train, y_test
+    return X, X_train, X_test, y_train, y_test
 
 
 def classification_report_image(y_train,
@@ -175,7 +179,34 @@ def make_text_plot(title, text, show=True):
         plt.close()
 
 
+def feature_importance_plot(importances, X_data, output_pth):
+    """
+    Function to generate a feature importance plot for a
+    random forest classifier
 
+    Args:
+        importances: a RandomoForestClassfier model feature_importances_ object
+        X_data: pandas dataframe of X values
+        output_pth (str): path to save the plot
+    """
+    indices = np.argsort(importances)[::-1]
+    names = [X_data.columns[i] for i in indices]
+    plt.figure(figsize=(20, 5))
+    plt.title("Feature Importance")
+    plt.ylabel('Importance')
+    plt.bar(range(X_data.shape[1]), importances[indices])
+    plt.xticks(range(X_data.shape[1]), names, rotation=90)
+    plt.savefig(output_pth)
+
+
+def plot_roc_curves(lrc_model, rfc_model, X_test, y_test, output_path):
+    lrc_plot = plot_roc_curve(lrc_model, X_test, y_test)
+
+    plt.figure(figsize=(15, 8))
+    ax = plt.gca()
+    rfc_disp = plot_roc_curve(rfc_model.best_estimator_, X_test, y_test, ax=ax, alpha=0.8)
+    lrc_plot.plot(ax=ax, alpha=0.8)
+    plt.savefig(output_path)
 
 
 if __name__ == "__main__":
@@ -231,6 +262,9 @@ if __name__ == "__main__":
     preds["y_test_lr"] = lrc.predict(X_test)
 
     classification_report_image(y_train, y_test, preds)
+
+    importances = cv_rfc.best_estimator_.feature_importances_
+    feature_importance_plot(importances, )
 
     # quant_columns = ['Customer_Age',
     #                  'Dependent_count',
