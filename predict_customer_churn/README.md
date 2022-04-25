@@ -8,7 +8,7 @@ This code predicts credit card customer churn using a Random Forest Classifier a
 ### churn_library.py
 Holds all the functions required to perform the model training and prediction
 
-### churn_scrip_logging_and_tests.py
+### churn_script_logging_and_tests.py
 Holds test functions to test the functions defined in churn_library.py
 
 ### predictor.py
