@@ -1,0 +1,31 @@
+{
+    "os": "macOS-12.2.1-arm64-arm-64bit",
+    "python": "3.10.4",
+    "heartbeatAt": "2022-04-30T09:18:48.311229",
+    "startedAt": "2022-04-30T09:18:44.347927",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--file_url",
+        "https://raw.githubusercontent.com/scikit-learn/scikit-learn/4dfdfb4elbb3719628753a4ece995alb2fa5312a/sklearn/datasets/data/iris.csv",
+        "--artifact_name",
+        "iris",
+        "--artifact_type",
+        "raw_data",
+        "--artifact_description",
+        "This dataset consists of 3 different types of irises' (Setosa, Versicolour and Virginica) petal and sepal length"
+    ],
+    "state": "running",
+    "program": "/Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_2/starter/download_data.py",
+    "codePath": "lesson-1-machine-learning-pipelines/exercises/exercise_2/starter/download_data.py",
+    "git": {
+        "remote": "https://github.com/udacity/nd0821-c2-build-model-workflow-exercises.git",
+        "commit": "b4e585e68b0758a9897c69f793a7d22f63426a9c"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mlflow-7b530ef760d0082eeaac0c0a23cad12180b71a4f/bin/python"
+}

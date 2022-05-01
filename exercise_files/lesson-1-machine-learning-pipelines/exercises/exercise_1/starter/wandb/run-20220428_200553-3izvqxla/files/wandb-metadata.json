@@ -1,0 +1,31 @@
+{
+    "os": "macOS-12.2.1-arm64-arm-64bit",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-04-28T12:05:55.188216",
+    "startedAt": "2022-04-28T12:05:53.789844",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--input_file",
+        "zen.txt",
+        "--artifact_name",
+        "zen_of_python",
+        "--artifact_type",
+        "text_file",
+        "--artifact_description",
+        "20 aphorisms about writing good python code"
+    ],
+    "state": "running",
+    "program": "/Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/upload_artifact.py",
+    "codePath": "lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/upload_artifact.py",
+    "git": {
+        "remote": "https://github.com/udacity/nd0821-c2-build-model-workflow-exercises.git",
+        "commit": "b4e585e68b0758a9897c69f793a7d22f63426a9c"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mldevops/bin/python"
+}

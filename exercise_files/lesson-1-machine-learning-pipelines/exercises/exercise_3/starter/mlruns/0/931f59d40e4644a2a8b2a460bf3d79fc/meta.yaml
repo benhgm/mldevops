@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_3/starter/mlruns/0/931f59d40e4644a2a8b2a460bf3d79fc/artifacts
+end_time: 1651411131478
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 931f59d40e4644a2a8b2a460bf3d79fc
+run_uuid: 931f59d40e4644a2a8b2a460bf3d79fc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1651411116787
+status: 4
+tags: []
+user_id: benho

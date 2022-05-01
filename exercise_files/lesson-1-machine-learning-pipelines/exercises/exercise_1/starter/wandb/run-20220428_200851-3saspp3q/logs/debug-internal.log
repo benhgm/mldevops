@@ -1,0 +1,186 @@
+2022-04-28 20:08:52,013 INFO    MainThread:90132 [internal.py:wandb_internal():90] W&B internal server running at pid: 90132, started at: 2022-04-28 20:08:52.013623
+2022-04-28 20:08:52,014 INFO    WriterThread:90132 [datastore.py:open_for_write():75] open: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/run-3saspp3q.wandb
+2022-04-28 20:08:52,015 DEBUG   SenderThread:90132 [sender.py:send():232] send: header
+2022-04-28 20:08:52,015 DEBUG   SenderThread:90132 [sender.py:send():232] send: run
+2022-04-28 20:08:52,333 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: check_version
+2022-04-28 20:08:52,337 INFO    SenderThread:90132 [dir_watcher.py:__init__():166] watching files in: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files
+2022-04-28 20:08:52,337 INFO    SenderThread:90132 [sender.py:_start_run_threads():811] run started: 3saspp3q with start time 1651147731
+2022-04-28 20:08:52,337 DEBUG   SenderThread:90132 [sender.py:send():232] send: summary
+2022-04-28 20:08:52,337 INFO    SenderThread:90132 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-04-28 20:08:52,338 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: check_version
+2022-04-28 20:08:52,416 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: run_start
+2022-04-28 20:08:52,417 DEBUG   HandlerThread:90132 [meta.py:__init__():35] meta init
+2022-04-28 20:08:52,417 DEBUG   HandlerThread:90132 [meta.py:__init__():49] meta init done
+2022-04-28 20:08:52,417 DEBUG   HandlerThread:90132 [meta.py:probe():209] probe
+2022-04-28 20:08:52,421 DEBUG   HandlerThread:90132 [meta.py:_setup_git():199] setup git
+2022-04-28 20:08:52,436 DEBUG   HandlerThread:90132 [meta.py:_setup_git():206] setup git done
+2022-04-28 20:08:52,437 DEBUG   HandlerThread:90132 [meta.py:_save_pip():53] save pip
+2022-04-28 20:08:52,437 DEBUG   HandlerThread:90132 [meta.py:_save_pip():67] save pip done
+2022-04-28 20:08:52,437 DEBUG   HandlerThread:90132 [meta.py:_save_conda():74] save conda
+2022-04-28 20:08:53,142 DEBUG   HandlerThread:90132 [meta.py:_save_conda():84] save conda done
+2022-04-28 20:08:53,142 DEBUG   HandlerThread:90132 [meta.py:probe():247] probe done
+2022-04-28 20:08:53,145 DEBUG   SenderThread:90132 [sender.py:send():232] send: telemetry
+2022-04-28 20:08:53,145 DEBUG   SenderThread:90132 [sender.py:send():232] send: files
+2022-04-28 20:08:53,145 INFO    SenderThread:90132 [sender.py:_save_file():946] saving file wandb-metadata.json with policy now
+2022-04-28 20:08:53,147 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: stop_status
+2022-04-28 20:08:53,147 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: stop_status
+2022-04-28 20:08:53,345 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_created():213] file/dir created: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-metadata.json
+2022-04-28 20:08:53,345 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_created():213] file/dir created: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/requirements.txt
+2022-04-28 20:08:53,345 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_created():213] file/dir created: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-summary.json
+2022-04-28 20:08:53,346 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_created():213] file/dir created: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/conda-environment.yaml
+2022-04-28 20:08:53,346 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_created():213] file/dir created: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/output.log
+2022-04-28 20:08:53,404 DEBUG   SenderThread:90132 [sender.py:send():232] send: telemetry
+2022-04-28 20:08:53,796 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: log_artifact
+2022-04-28 20:08:53,796 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: log_artifact
+2022-04-28 20:08:53,864 INFO    Thread-11 :90132 [upload_job.py:push():137] Uploaded file /var/folders/xn/cmygvkyj2ys2gk823d1jth0c0000gn/T/tmp7kz5d23uwandb/27ulpr33-wandb-metadata.json
+2022-04-28 20:08:55,885 INFO    Thread-13 :90132 [upload_job.py:push():95] Uploaded file /Users/benho/.cache/wandb/artifacts/obj/md5/3f/e9ffe39eb421bea6373926bddc0d56
+2022-04-28 20:08:56,178 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:57,481 INFO    SenderThread:90132 [sender.py:send_request_log_artifact():1001] logged artifact zen_of_python - {'id': 'QXJ0aWZhY3Q6MTE5NDE4ODc4', 'digest': '748743acb752838926ff533c28b03acc', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE5NDU5NzY1', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTE5NDE4NDAy', 'versionIndex': 0}}, 'version': 'latest'}
+2022-04-28 20:08:57,481 DEBUG   SenderThread:90132 [sender.py:send():232] send: telemetry
+2022-04-28 20:08:57,481 DEBUG   SenderThread:90132 [sender.py:send():232] send: telemetry
+2022-04-28 20:08:57,482 DEBUG   SenderThread:90132 [sender.py:send():232] send: exit
+2022-04-28 20:08:57,482 INFO    SenderThread:90132 [sender.py:send_exit():368] handling exit code: 0
+2022-04-28 20:08:57,482 INFO    SenderThread:90132 [sender.py:send_exit():370] handling runtime: 3
+2022-04-28 20:08:57,483 INFO    SenderThread:90132 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-04-28 20:08:57,483 INFO    SenderThread:90132 [sender.py:send_exit():376] send defer
+2022-04-28 20:08:57,483 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:57,484 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:57,484 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 0
+2022-04-28 20:08:57,484 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:57,484 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 0
+2022-04-28 20:08:57,484 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 1
+2022-04-28 20:08:57,484 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:57,484 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 1
+2022-04-28 20:08:58,124 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:58,124 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,124 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 1
+2022-04-28 20:08:58,124 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 2
+2022-04-28 20:08:58,124 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:58,124 DEBUG   SenderThread:90132 [sender.py:send():232] send: stats
+2022-04-28 20:08:58,125 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:58,125 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 2
+2022-04-28 20:08:58,125 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,125 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 2
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 3
+2022-04-28 20:08:58,126 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:58,126 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 3
+2022-04-28 20:08:58,126 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 3
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 4
+2022-04-28 20:08:58,126 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:58,126 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 4
+2022-04-28 20:08:58,126 DEBUG   SenderThread:90132 [sender.py:send():232] send: summary
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:_save_file():946] saving file wandb-summary.json with policy end
+2022-04-28 20:08:58,126 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 4
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 5
+2022-04-28 20:08:58,126 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:58,126 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 5
+2022-04-28 20:08:58,126 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,126 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 5
+2022-04-28 20:08:58,231 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:58,371 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_modified():226] file/dir modified: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-summary.json
+2022-04-28 20:08:58,439 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 6
+2022-04-28 20:08:58,439 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:58,439 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:58,439 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 6
+2022-04-28 20:08:58,439 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:58,439 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 6
+2022-04-28 20:08:58,440 INFO    SenderThread:90132 [dir_watcher.py:finish():279] shutting down directory watcher
+2022-04-28 20:08:58,547 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,374 INFO    Thread-7  :90132 [dir_watcher.py:_on_file_modified():226] file/dir modified: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/config.yaml
+2022-04-28 20:08:59,377 INFO    SenderThread:90132 [dir_watcher.py:finish():309] scan: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files
+2022-04-28 20:08:59,378 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/requirements.txt requirements.txt
+2022-04-28 20:08:59,378 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/output.log output.log
+2022-04-28 20:08:59,378 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/config.yaml config.yaml
+2022-04-28 20:08:59,382 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-summary.json wandb-summary.json
+2022-04-28 20:08:59,382 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/conda-environment.yaml conda-environment.yaml
+2022-04-28 20:08:59,382 INFO    SenderThread:90132 [dir_watcher.py:finish():323] scan save: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-metadata.json wandb-metadata.json
+2022-04-28 20:08:59,382 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 7
+2022-04-28 20:08:59,382 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:59,383 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:08:59,383 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 7
+2022-04-28 20:08:59,384 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:08:59,384 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 7
+2022-04-28 20:08:59,384 INFO    SenderThread:90132 [file_pusher.py:finish():145] shutting down file pusher
+2022-04-28 20:08:59,489 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,489 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:59,596 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,597 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:59,704 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,705 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:59,813 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,814 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:08:59,920 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:08:59,920 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,027 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,028 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,134 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,135 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,199 INFO    Thread-15 :90132 [upload_job.py:push():137] Uploaded file /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/config.yaml
+2022-04-28 20:09:00,247 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,248 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,356 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,357 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,429 INFO    Thread-17 :90132 [upload_job.py:push():137] Uploaded file /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/conda-environment.yaml
+2022-04-28 20:09:00,460 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,460 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,568 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,569 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,674 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,674 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,782 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,783 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,869 INFO    Thread-16 :90132 [upload_job.py:push():137] Uploaded file /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/wandb-summary.json
+2022-04-28 20:09:00,892 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,893 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:00,998 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:00,999 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,109 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,109 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,217 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,218 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,325 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,326 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,433 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,433 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,537 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,538 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,646 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,647 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,680 INFO    Thread-14 :90132 [upload_job.py:push():137] Uploaded file /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/files/requirements.txt
+2022-04-28 20:09:01,755 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,755 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,863 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:01,863 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:01,886 INFO    Thread-6  :90132 [sender.py:transition_state():389] send defer: 8
+2022-04-28 20:09:01,886 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:09:01,886 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 8
+2022-04-28 20:09:01,886 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:09:01,886 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 8
+2022-04-28 20:09:01,972 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:02,187 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 9
+2022-04-28 20:09:02,188 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:02,189 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:09:02,189 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 9
+2022-04-28 20:09:02,189 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:09:02,189 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 9
+2022-04-28 20:09:02,189 INFO    SenderThread:90132 [sender.py:transition_state():389] send defer: 10
+2022-04-28 20:09:02,190 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: defer
+2022-04-28 20:09:02,190 INFO    HandlerThread:90132 [handler.py:handle_request_defer():164] handle defer: 10
+2022-04-28 20:09:02,190 DEBUG   SenderThread:90132 [sender.py:send():232] send: final
+2022-04-28 20:09:02,190 DEBUG   SenderThread:90132 [sender.py:send():232] send: footer
+2022-04-28 20:09:02,190 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: defer
+2022-04-28 20:09:02,190 INFO    SenderThread:90132 [sender.py:send_request_defer():385] handle sender defer: 10
+2022-04-28 20:09:02,297 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: poll_exit
+2022-04-28 20:09:02,298 DEBUG   SenderThread:90132 [sender.py:send_request():246] send_request: poll_exit
+2022-04-28 20:09:02,299 INFO    SenderThread:90132 [file_pusher.py:join():150] waiting for file pusher
+2022-04-28 20:09:02,663 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: sampled_history
+2022-04-28 20:09:02,664 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: get_summary
+2022-04-28 20:09:02,665 DEBUG   HandlerThread:90132 [handler.py:handle_request():141] handle_request: shutdown
+2022-04-28 20:09:02,665 INFO    HandlerThread:90132 [handler.py:finish():806] shutting down handler
+2022-04-28 20:09:03,192 INFO    WriterThread:90132 [datastore.py:close():279] close: /Users/benho/Documents/workspace/mldevops/exercises/nd0821-c2-build-model-workflow-exercises/lesson-1-machine-learning-pipelines/exercises/exercise_1/starter/wandb/run-20220428_200851-3saspp3q/run-3saspp3q.wandb
+2022-04-28 20:09:03,560 INFO    SenderThread:90132 [sender.py:finish():1106] shutting down sender
+2022-04-28 20:09:03,561 INFO    SenderThread:90132 [file_pusher.py:finish():145] shutting down file pusher
+2022-04-28 20:09:03,561 INFO    SenderThread:90132 [file_pusher.py:join():150] waiting for file pusher
+2022-04-28 20:09:03,563 INFO    MainThread:90132 [internal.py:handle_exit():80] Internal process exited
