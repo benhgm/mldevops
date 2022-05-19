@@ -1,0 +1,31 @@
+{
+    "os": "macOS-12.3.1-arm64-arm-64bit",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-05-19T12:48:12.737978",
+    "startedAt": "2022-05-19T12:48:11.958450",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "-s",
+        "-vv",
+        ".",
+        "--reference_artifact",
+        "exercise_14/preprocessed_data.csv:latest",
+        "--sample_artifact",
+        "preprocessed_data.csv:latest",
+        "--ks_alpha",
+        "0.05"
+    ],
+    "state": "running",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "https://github.com/minjabenho/mldevops",
+        "commit": "1a25656b9af61d383b550f23626fbb5d93c7816c"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/bin/python"
+}

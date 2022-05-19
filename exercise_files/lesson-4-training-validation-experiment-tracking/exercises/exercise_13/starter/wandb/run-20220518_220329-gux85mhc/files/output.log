@@ -1,0 +1,37 @@
+2022-05-18 22:03:30,574 Downloading and reading test artifact
+2022-05-18 22:03:32,206 Extracting target from dataframe
+2022-05-18 22:03:32,208 Downloading and reading the exported model
+wandb: ERROR Project minjabenho/exercise_12 does not contain artifact: "mode_export:latest"
+Traceback (most recent call last):
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/normalize.py", line 24, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 520, in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 2583, in __init__
+    self._load()
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 3097, in _load
+    raise ValueError(
+ValueError: Project minjabenho/exercise_12 does not contain artifact: "mode_export:latest"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_13/starter/run.py", line 87, in <module>
+    go(args)
+  File "/Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_13/starter/run.py", line 32, in go
+    model_export_path = run.use_artifact(args.model_export).download()
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 1957, in use_artifact
+    artifact = public_api.artifact(type=type, name=name)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/normalize.py", line 62, in wrapper
+    six.reraise(CommError, CommError(message, err), sys.exc_info()[2])
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/six.py", line 718, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/normalize.py", line 24, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 520, in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 2583, in __init__
+    self._load()
+  File "/Users/benho/miniforge3/envs/mlflow-bc14a65273385835d7a9c0d9583d7963742edd13/lib/python3.9/site-packages/wandb/apis/public.py", line 3097, in _load
+    raise ValueError(
+wandb.errors.error.CommError: Project minjabenho/exercise_12 does not contain artifact: "mode_export:latest"

@@ -100,11 +100,27 @@ def export_model(run, pipe, X_val, val_pred, export_artifact):
         # function. Provide the signature computed above ("signature") as well as a few
         # examples (input_example=X_val.iloc[:2]), and use the CLOUDPICKLE serialization
         # format (mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE)
+        mlflow.sklearn.save_model(
+            pipe,
+            export_path,
+            signature=signature,
+            input_example=X_val.iloc[:2],
+            serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE
+        )
 
         # Then upload the temp_dir directory as an artifact:
         # 1. create a wandb.Artifact instance called "artifact"
+        artifact = wandb.Artifact(
+            export_artifact,
+            type="mode_export",
+            description="random forest classifier pipeline export"
+        )
+
         # 2. add the temp directory using .add_dir
+        artifact.add_dir(export_path)
+
         # 3. log the artifact to the run
+        run.log_artifact(artifact)
 
         # Make sure the artifact is uploaded before the temp dir
         # gets deleted

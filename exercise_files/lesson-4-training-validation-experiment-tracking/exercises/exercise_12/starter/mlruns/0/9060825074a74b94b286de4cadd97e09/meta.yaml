@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_12/starter/mlruns/0/9060825074a74b94b286de4cadd97e09/artifacts
+end_time: 1652709182320
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 9060825074a74b94b286de4cadd97e09
+run_uuid: 9060825074a74b94b286de4cadd97e09
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1652709112172
+status: 3
+tags: []
+user_id: benho

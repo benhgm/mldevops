@@ -1,0 +1,30 @@
+{
+    "os": "macOS-12.3.1-arm64-arm-64bit",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-05-13T13:29:15.786425",
+    "startedAt": "2022-05-13T13:29:14.988726",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        ".",
+        "-vv",
+        "--reference_artifact",
+        "exercise_6/data_train.csv:latest",
+        "--sample_artifact",
+        "exercise_6/data_test.csv:latest",
+        "--ks_alpha",
+        "0.05"
+    ],
+    "state": "running",
+    "program": "/Users/benho/miniforge3/envs/mldevops/bin/pytest",
+    "git": {
+        "remote": "https://github.com/minjabenho/mldevops",
+        "commit": "61882b771a1ca72cc264349b46d623d6ff93dc15"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mldevops/bin/python"
+}

@@ -1,0 +1,79 @@
+2022-05-19 20:53:24,583 INFO    MainThread:53592 [internal.py:wandb_internal():88] W&B internal server running at pid: 53592, started at: 2022-05-19 20:53:24.582935
+2022-05-19 20:53:24,583 DEBUG   HandlerThread:53592 [handler.py:handle_request():101] handle_request: check_version
+2022-05-19 20:53:24,583 INFO    WriterThread:53592 [datastore.py:open_for_write():77] open: /Users/benho/Documents/workspace/mldevops/genre_classification/segregate/wandb/run-20220519_205324-w7irc3sn/run-w7irc3sn.wandb
+2022-05-19 20:53:24,584 DEBUG   SenderThread:53592 [sender.py:send():122] send: header
+2022-05-19 20:53:24,584 DEBUG   SenderThread:53592 [sender.py:send():122] send: request
+2022-05-19 20:53:24,584 DEBUG   SenderThread:53592 [sender.py:send_request():131] send_request: check_version
+2022-05-19 20:53:24,672 DEBUG   SenderThread:53592 [sender.py:send():122] send: run
+2022-05-19 20:53:54,681 DEBUG   HandlerThread:53592 [handler.py:handle_request():101] handle_request: shutdown
+2022-05-19 20:53:54,681 INFO    HandlerThread:53592 [handler.py:finish():535] shutting down handler
+2022-05-19 20:53:54,779 INFO    WriterThread:53592 [datastore.py:close():258] close: /Users/benho/Documents/workspace/mldevops/genre_classification/segregate/wandb/run-20220519_205324-w7irc3sn/run-w7irc3sn.wandb
+2022-05-19 20:53:58,452 ERROR   SenderThread:53592 [retry.py:__call__():111] Retry attempt failed:
+Traceback (most recent call last):
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/http/client.py", line 1377, in getresponse
+    response.begin()
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/http/client.py", line 320, in begin
+    version, status, reason = self._read_status()
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/http/client.py", line 281, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/packages/six.py", line 770, in reraise
+    raise value
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 451, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/urllib3/connectionpool.py", line 340, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/wandb/old/retry.py", line 96, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 123, in execute
+    return self.client.execute(*args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/wandb/vendor/gql-0.2.0/gql/transport/requests.py", line 38, in execute
+    request = requests.post(self.url, **post_args)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/api.py", line 117, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/benho/miniforge3/envs/mlflow-b536c99cab3f07bfeb0a1ad9e153575c07cd087e/lib/python3.9/site-packages/requests/adapters.py", line 532, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+2022-05-19 20:54:23,966 ERROR   SenderThread:53592 [internal_api.py:execute():126] 409 response executing GraphQL.
+2022-05-19 20:54:23,966 ERROR   SenderThread:53592 [internal_api.py:execute():127] {"errors":[{"message":"Error 1062: Duplicate entry '952002-w7irc3sn' for key 'PRIMARY'","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2022-05-19 20:54:42,900 INFO    SenderThread:53592 [sender.py:_start_run_threads():596] run started: w7irc3sn with start time 1652964804
+2022-05-19 20:54:42,900 INFO    SenderThread:53592 [sender.py:finish():833] shutting down sender
+2022-05-19 20:54:45,829 INFO    MainThread:53592 [internal.py:handle_exit():78] Internal process exited

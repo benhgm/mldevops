@@ -1,0 +1,1175 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.12, pytest-6.2.2, py-1.11.0, pluggy-0.13.1 -- /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/benho/Documents/workspace/mldevops/genre_classification/check_data
+collecting ... collected 4 items
+
+test_data.py::test_column_presence_and_type ERROR
+test_data.py::test_class_names ERROR
+test_data.py::test_column_ranges ERROR
+test_data.py::test_kolmogorov_smirnov ERROR
+
+==================================== ERRORS ====================================
+_______________ ERROR at setup of test_column_presence_and_type ________________
+
+args = (<wandb.apis.public.Api object at 0x13e60fa60>,)
+kwargs = {'name': 'exercise_14/preprocessed_data.csv:latest', 'type': None}
+message = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+payload = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        message = "Whoa, you found a bug."
+        try:
+>           return func(*args, **kwargs)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <wandb.apis.public.Api object at 0x13e60fa60>
+name = 'exercise_14/preprocessed_data.csv:latest', type = None
+
+    @normalize_exceptions
+    def artifact(self, name, type=None):
+        """
+        Returns a single artifact by parsing path in the form `entity/project/run_id`.
+    
+        Arguments:
+            name: (str) An artifact name. May be prefixed with entity/project. Valid names
+                can be in the following forms:
+                    name:version
+                    name:alias
+                    digest
+            type: (str, optional) The type of artifact to fetch.
+        Returns:
+            A `Artifact` object.
+        """
+        if name is None:
+            raise ValueError("You must specify name= to fetch an artifact.")
+        entity, project, artifact_name = self._parse_artifact_path(name)
+>       artifact = Artifact(self.client, entity, project, artifact_name)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+client = <wandb.apis.public.RetryingClient object at 0x13e6240a0>
+entity = 'minjabenho', project = 'exercise_14'
+name = 'preprocessed_data.csv:latest', attrs = None
+
+    def __init__(self, client, entity, project, name, attrs=None):
+        self.client = client
+        self._entity = entity
+        self._project = project
+        self._artifact_name = name
+        self._attrs = attrs
+        if self._attrs is None:
+>           self._load()
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           ValueError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: ValueError
+
+During handling of the above exception, another exception occurred:
+
+request = <SubRequest 'data' for <Function test_column_presence_and_type>>
+
+    @pytest.fixture(scope="session")
+    def data(request):
+    
+        reference_artifact = request.config.option.reference_artifact
+    
+        if reference_artifact is None:
+            pytest.fail("--reference_artifact missing on command line")
+    
+        sample_artifact = request.config.option.sample_artifact
+    
+        if sample_artifact is None:
+            pytest.fail("--sample_artifact missing on command line")
+    
+>       local_path = run.use_artifact(reference_artifact).file()
+
+conftest.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/sdk/wandb_run.py:1957: in use_artifact
+    artifact = public_api.artifact(type=type, name=name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:62: in wrapper
+    six.reraise(CommError, CommError(message, err), sys.exc_info()[2])
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/six.py:718: in reraise
+    raise value.with_traceback(tb)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: in wrapper
+    return func(*args, **kwargs)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: in __init__
+    self._load()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           wandb.errors.error.CommError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: CommError
+______________________ ERROR at setup of test_class_names ______________________
+
+args = (<wandb.apis.public.Api object at 0x13e60fa60>,)
+kwargs = {'name': 'exercise_14/preprocessed_data.csv:latest', 'type': None}
+message = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+payload = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        message = "Whoa, you found a bug."
+        try:
+>           return func(*args, **kwargs)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <wandb.apis.public.Api object at 0x13e60fa60>
+name = 'exercise_14/preprocessed_data.csv:latest', type = None
+
+    @normalize_exceptions
+    def artifact(self, name, type=None):
+        """
+        Returns a single artifact by parsing path in the form `entity/project/run_id`.
+    
+        Arguments:
+            name: (str) An artifact name. May be prefixed with entity/project. Valid names
+                can be in the following forms:
+                    name:version
+                    name:alias
+                    digest
+            type: (str, optional) The type of artifact to fetch.
+        Returns:
+            A `Artifact` object.
+        """
+        if name is None:
+            raise ValueError("You must specify name= to fetch an artifact.")
+        entity, project, artifact_name = self._parse_artifact_path(name)
+>       artifact = Artifact(self.client, entity, project, artifact_name)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+client = <wandb.apis.public.RetryingClient object at 0x13e6240a0>
+entity = 'minjabenho', project = 'exercise_14'
+name = 'preprocessed_data.csv:latest', attrs = None
+
+    def __init__(self, client, entity, project, name, attrs=None):
+        self.client = client
+        self._entity = entity
+        self._project = project
+        self._artifact_name = name
+        self._attrs = attrs
+        if self._attrs is None:
+>           self._load()
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           ValueError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: ValueError
+
+During handling of the above exception, another exception occurred:
+
+request = <SubRequest 'data' for <Function test_column_presence_and_type>>
+
+    @pytest.fixture(scope="session")
+    def data(request):
+    
+        reference_artifact = request.config.option.reference_artifact
+    
+        if reference_artifact is None:
+            pytest.fail("--reference_artifact missing on command line")
+    
+        sample_artifact = request.config.option.sample_artifact
+    
+        if sample_artifact is None:
+            pytest.fail("--sample_artifact missing on command line")
+    
+>       local_path = run.use_artifact(reference_artifact).file()
+
+conftest.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/sdk/wandb_run.py:1957: in use_artifact
+    artifact = public_api.artifact(type=type, name=name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:62: in wrapper
+    six.reraise(CommError, CommError(message, err), sys.exc_info()[2])
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/six.py:718: in reraise
+    raise value.with_traceback(tb)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: in wrapper
+    return func(*args, **kwargs)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: in __init__
+    self._load()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           wandb.errors.error.CommError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: CommError
+_____________________ ERROR at setup of test_column_ranges _____________________
+
+args = (<wandb.apis.public.Api object at 0x13e60fa60>,)
+kwargs = {'name': 'exercise_14/preprocessed_data.csv:latest', 'type': None}
+message = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+payload = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        message = "Whoa, you found a bug."
+        try:
+>           return func(*args, **kwargs)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <wandb.apis.public.Api object at 0x13e60fa60>
+name = 'exercise_14/preprocessed_data.csv:latest', type = None
+
+    @normalize_exceptions
+    def artifact(self, name, type=None):
+        """
+        Returns a single artifact by parsing path in the form `entity/project/run_id`.
+    
+        Arguments:
+            name: (str) An artifact name. May be prefixed with entity/project. Valid names
+                can be in the following forms:
+                    name:version
+                    name:alias
+                    digest
+            type: (str, optional) The type of artifact to fetch.
+        Returns:
+            A `Artifact` object.
+        """
+        if name is None:
+            raise ValueError("You must specify name= to fetch an artifact.")
+        entity, project, artifact_name = self._parse_artifact_path(name)
+>       artifact = Artifact(self.client, entity, project, artifact_name)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+client = <wandb.apis.public.RetryingClient object at 0x13e6240a0>
+entity = 'minjabenho', project = 'exercise_14'
+name = 'preprocessed_data.csv:latest', attrs = None
+
+    def __init__(self, client, entity, project, name, attrs=None):
+        self.client = client
+        self._entity = entity
+        self._project = project
+        self._artifact_name = name
+        self._attrs = attrs
+        if self._attrs is None:
+>           self._load()
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           ValueError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: ValueError
+
+During handling of the above exception, another exception occurred:
+
+request = <SubRequest 'data' for <Function test_column_presence_and_type>>
+
+    @pytest.fixture(scope="session")
+    def data(request):
+    
+        reference_artifact = request.config.option.reference_artifact
+    
+        if reference_artifact is None:
+            pytest.fail("--reference_artifact missing on command line")
+    
+        sample_artifact = request.config.option.sample_artifact
+    
+        if sample_artifact is None:
+            pytest.fail("--sample_artifact missing on command line")
+    
+>       local_path = run.use_artifact(reference_artifact).file()
+
+conftest.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/sdk/wandb_run.py:1957: in use_artifact
+    artifact = public_api.artifact(type=type, name=name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:62: in wrapper
+    six.reraise(CommError, CommError(message, err), sys.exc_info()[2])
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/six.py:718: in reraise
+    raise value.with_traceback(tb)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: in wrapper
+    return func(*args, **kwargs)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: in __init__
+    self._load()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           wandb.errors.error.CommError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: CommError
+__________________ ERROR at setup of test_kolmogorov_smirnov ___________________
+
+args = (<wandb.apis.public.Api object at 0x13e60fa60>,)
+kwargs = {'name': 'exercise_14/preprocessed_data.csv:latest', 'type': None}
+message = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+payload = 'Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"'
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        message = "Whoa, you found a bug."
+        try:
+>           return func(*args, **kwargs)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <wandb.apis.public.Api object at 0x13e60fa60>
+name = 'exercise_14/preprocessed_data.csv:latest', type = None
+
+    @normalize_exceptions
+    def artifact(self, name, type=None):
+        """
+        Returns a single artifact by parsing path in the form `entity/project/run_id`.
+    
+        Arguments:
+            name: (str) An artifact name. May be prefixed with entity/project. Valid names
+                can be in the following forms:
+                    name:version
+                    name:alias
+                    digest
+            type: (str, optional) The type of artifact to fetch.
+        Returns:
+            A `Artifact` object.
+        """
+        if name is None:
+            raise ValueError("You must specify name= to fetch an artifact.")
+        entity, project, artifact_name = self._parse_artifact_path(name)
+>       artifact = Artifact(self.client, entity, project, artifact_name)
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+client = <wandb.apis.public.RetryingClient object at 0x13e6240a0>
+entity = 'minjabenho', project = 'exercise_14'
+name = 'preprocessed_data.csv:latest', attrs = None
+
+    def __init__(self, client, entity, project, name, attrs=None):
+        self.client = client
+        self._entity = entity
+        self._project = project
+        self._artifact_name = name
+        self._attrs = attrs
+        if self._attrs is None:
+>           self._load()
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           ValueError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: ValueError
+
+During handling of the above exception, another exception occurred:
+
+request = <SubRequest 'data' for <Function test_column_presence_and_type>>
+
+    @pytest.fixture(scope="session")
+    def data(request):
+    
+        reference_artifact = request.config.option.reference_artifact
+    
+        if reference_artifact is None:
+            pytest.fail("--reference_artifact missing on command line")
+    
+        sample_artifact = request.config.option.sample_artifact
+    
+        if sample_artifact is None:
+            pytest.fail("--sample_artifact missing on command line")
+    
+>       local_path = run.use_artifact(reference_artifact).file()
+
+conftest.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/sdk/wandb_run.py:1957: in use_artifact
+    artifact = public_api.artifact(type=type, name=name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:62: in wrapper
+    six.reraise(CommError, CommError(message, err), sys.exc_info()[2])
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/six.py:718: in reraise
+    raise value.with_traceback(tb)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/normalize.py:24: in wrapper
+    return func(*args, **kwargs)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:520: in artifact
+    artifact = Artifact(self.client, entity, project, artifact_name)
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:2583: in __init__
+    self._load()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <[TypeError("'NoneType' object is not subscriptable") raised in repr()] Artifact object at 0x13e624130>
+
+    def _load(self):
+        query = gql(
+            """
+        query Artifact(
+            $entityName: String!,
+            $projectName: String!,
+            $name: String!
+        ) {
+            project(name: $projectName, entityName: $entityName) {
+                artifact(name: $name) {
+                    ...ArtifactFragment
+                }
+            }
+        }
+        %s
+        """
+            % ARTIFACT_FRAGMENT
+        )
+        response = None
+        try:
+            response = self.client.execute(
+                query,
+                variable_values={
+                    "entityName": self.entity,
+                    "projectName": self.project,
+                    "name": self._artifact_name,
+                },
+            )
+        except Exception:
+            # we check for this after doing the call, since the backend supports raw digest lookups
+            # which don't include ":" and are 32 characters long
+            if ":" not in self._artifact_name and len(self._artifact_name) != 32:
+                raise ValueError(
+                    'Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")'
+                )
+        if (
+            response is None
+            or response.get("project") is None
+            or response["project"].get("artifact") is None
+        ):
+>           raise ValueError(
+                'Project %s/%s does not contain artifact: "%s"'
+                % (self.entity, self.project, self._artifact_name)
+            )
+E           wandb.errors.error.CommError: Project minjabenho/exercise_14 does not contain artifact: "preprocessed_data.csv:latest"
+
+/Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/apis/public.py:3097: CommError
+=============================== warnings summary ===============================
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:16
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:16: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    DESCRIPTOR = _descriptor.FileDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:34
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:34: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:41
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:41: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:48
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:48: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:55
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:55: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:62
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:62: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:69
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:69: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:76
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:76: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:27
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:27: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _TELEMETRYRECORD = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:107
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:107: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:114
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:114: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:121
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:121: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:128
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:128: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:135
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:135: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:142
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:142: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:149
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:149: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:156
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:156: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:163
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:163: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:170
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:170: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:177
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:177: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:100
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:100: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _IMPORTS = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:208
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:208: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:215
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:215: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:222
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:222: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:229
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:229: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:236
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:236: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:243
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:243: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:250
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:250: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:201
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:201: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _FEATURE = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:281
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:281: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:288
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:288: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:295
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:295: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:302
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:302: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:309
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:309: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:316
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:316: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:323
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:323: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:330
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:330: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:274
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_telemetry_pb2.py:274: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _ENV = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:18
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:18: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    DESCRIPTOR = _descriptor.FileDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:35
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:35: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:39
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:39: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:43
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:43: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:47
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:47: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:51
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:51: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:29
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:29: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _ERRORINFO_ERRORCODE = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:69
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:69: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:73
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:73: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:63
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:63: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _OUTPUTRECORD_OUTPUTTYPE = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:91
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:91: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:95
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:95: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:99
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:99: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:85
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:85: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _METRICRECORD_METRICGOAL = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:117
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:117: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:121
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:121: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:125
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:125: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:111
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:111: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _FILESITEM_POLICYTYPE = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:143
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:143: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:137
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:137: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _STATSRECORD_STATSTYPE = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:161
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:161: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:165
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:165: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:169
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:169: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:173
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:173: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:177
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:177: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:181
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:181: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:185
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:185: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:189
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:189: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:193
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:193: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.EnumValueDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:155
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:155: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _DEFERREQUEST_DEFERSTATE = _descriptor.EnumDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:213
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:213: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:220
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:220: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:227
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:227: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:234
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:234: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:241
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:241: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:248
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:248: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:255
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:255: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:262
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:262: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:269
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:269: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:276
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:276: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:283
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:283: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:290
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:290: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:297
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:297: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:304
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:304: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:311
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:311: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:318
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:318: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:325
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:325: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:332
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:332: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:339
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:339: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:346
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:346: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:364
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:364: DeprecationWarning: Call to deprecated create function OneofDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.OneofDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:206
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:206: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _RECORD = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:380
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:380: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:387
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:387: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:373
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:373: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _CONTROL = _descriptor.Descriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:418
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:418: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:425
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:425: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:432
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:432: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:439
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:439: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+    _descriptor.FieldDescriptor(
+
+../../../../../miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:446
+  /Users/benho/miniforge3/envs/mlflow-7398531e5288219e428182dc4d6601ae57991d39/lib/python3.9/site-packages/wandb/proto/wandb_internal_pb2.py:446: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to 

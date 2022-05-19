@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/benho/Documents/workspace/mldevops/exercise_files/lesson-3-data-validation/exercises/exercise_8/starter/mlruns/0/91a6d7601c3f4cc4855486ef1ccb694f/artifacts
+end_time: 1652281556150
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 91a6d7601c3f4cc4855486ef1ccb694f
+run_uuid: 91a6d7601c3f4cc4855486ef1ccb694f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1652281488146
+status: 3
+tags: []
+user_id: benho

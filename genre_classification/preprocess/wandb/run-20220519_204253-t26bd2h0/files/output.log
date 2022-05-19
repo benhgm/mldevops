@@ -1,0 +1,16 @@
+2022-05-19 20:42:54,304 Downloading artifact
+2022-05-19 20:42:56,769 Dropping duplicates
+2022-05-19 20:42:56,789 Feature engineering
+2022-05-19 20:42:57,022 Logging artifact
+Traceback (most recent call last):
+  File "/Users/benho/Documents/workspace/mldevops/genre_classification/preprocess/run.py", line 80, in <module>
+    go(args)
+  File "/Users/benho/Documents/workspace/mldevops/genre_classification/preprocess/run.py", line 45, in go
+    run.log_artifact(artifact)
+  File "/Users/benho/miniforge3/envs/mlflow-484b576132a8d4f86bd93cd736b9c9cac218a14d/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 2016, in log_artifact
+    return self._log_artifact(artifact_or_path, name, type, aliases)
+  File "/Users/benho/miniforge3/envs/mlflow-484b576132a8d4f86bd93cd736b9c9cac218a14d/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 2137, in _log_artifact
+    self._assert_can_log_artifact(artifact)
+  File "/Users/benho/miniforge3/envs/mlflow-484b576132a8d4f86bd93cd736b9c9cac218a14d/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 2179, in _assert_can_log_artifact
+    raise ValueError(
+ValueError: Expected artifact type preprocessed_data, got processed_data

@@ -1,0 +1,27 @@
+{
+    "os": "macOS-12.3.1-arm64-arm-64bit",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-05-16T13:27:30.853437",
+    "startedAt": "2022-05-16T13:27:30.130521",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--train_data",
+        "exercise_6/data_train.csv:latest",
+        "--model_config",
+        "/Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_11/starter/multirun/2022-05-16/21-27-03/2/random_forest_config.yml"
+    ],
+    "state": "running",
+    "program": "/Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_11/starter/random_forest/run.py",
+    "codePath": "exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_11/starter/random_forest/run.py",
+    "git": {
+        "remote": "https://github.com/minjabenho/mldevops",
+        "commit": "61882b771a1ca72cc264349b46d623d6ff93dc15"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mlflow-596a9acb3eb494c90f4352e87d683bb1da031a06/bin/python"
+}

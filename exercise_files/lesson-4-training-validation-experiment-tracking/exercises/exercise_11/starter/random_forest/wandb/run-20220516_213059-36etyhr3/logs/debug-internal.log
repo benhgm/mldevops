@@ -1,0 +1,116 @@
+2022-05-16 21:30:59,441 INFO    MainThread:43116 [internal.py:wandb_internal():88] W&B internal server running at pid: 43116, started at: 2022-05-16 21:30:59.441132
+2022-05-16 21:30:59,442 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: check_version
+2022-05-16 21:30:59,442 INFO    WriterThread:43116 [datastore.py:open_for_write():77] open: /Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_11/starter/random_forest/wandb/run-20220516_213059-36etyhr3/run-36etyhr3.wandb
+2022-05-16 21:30:59,442 DEBUG   SenderThread:43116 [sender.py:send():122] send: header
+2022-05-16 21:30:59,442 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:30:59,442 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: check_version
+2022-05-16 21:30:59,543 DEBUG   SenderThread:43116 [sender.py:send():122] send: run
+2022-05-16 21:30:59,900 INFO    SenderThread:43116 [sender.py:_start_run_threads():596] run started: 36etyhr3 with start time 1652707859
+2022-05-16 21:30:59,900 DEBUG   SenderThread:43116 [sender.py:send():122] send: summary
+2022-05-16 21:30:59,900 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file wandb-summary.json with policy end
+2022-05-16 21:30:59,900 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: run_start
+2022-05-16 21:30:59,901 DEBUG   HandlerThread:43116 [meta.py:__init__():34] meta init
+2022-05-16 21:30:59,901 DEBUG   HandlerThread:43116 [meta.py:__init__():48] meta init done
+2022-05-16 21:30:59,904 DEBUG   HandlerThread:43116 [meta.py:probe():190] probe
+2022-05-16 21:30:59,906 DEBUG   HandlerThread:43116 [meta.py:_setup_git():180] setup git
+2022-05-16 21:30:59,925 DEBUG   HandlerThread:43116 [meta.py:_setup_git():187] setup git done
+2022-05-16 21:30:59,926 DEBUG   HandlerThread:43116 [meta.py:_save_pip():52] save pip
+2022-05-16 21:30:59,926 DEBUG   HandlerThread:43116 [meta.py:_save_pip():66] save pip done
+2022-05-16 21:30:59,926 DEBUG   HandlerThread:43116 [meta.py:probe():231] probe done
+2022-05-16 21:30:59,928 DEBUG   SenderThread:43116 [sender.py:send():122] send: files
+2022-05-16 21:30:59,929 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file wandb-metadata.json with policy now
+2022-05-16 21:30:59,932 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: status
+2022-05-16 21:30:59,932 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:30:59,932 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: status
+2022-05-16 21:31:01,515 DEBUG   SenderThread:43116 [sender.py:send():122] send: config
+2022-05-16 21:31:01,945 DEBUG   SenderThread:43116 [sender.py:send():122] send: telemetry
+2022-05-16 21:31:07,290 DEBUG   SenderThread:43116 [sender.py:send():122] send: summary
+2022-05-16 21:31:07,291 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file wandb-summary.json with policy end
+2022-05-16 21:31:08,002 DEBUG   SenderThread:43116 [sender.py:send():122] send: files
+2022-05-16 21:31:08,003 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file media/images/feature_importance_0_826f3793.png with policy now
+2022-05-16 21:31:08,003 DEBUG   SenderThread:43116 [sender.py:send():122] send: files
+2022-05-16 21:31:08,003 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file media/images/confusion_matrix_0_f39c7cfc.png with policy now
+2022-05-16 21:31:08,007 DEBUG   SenderThread:43116 [sender.py:send():122] send: history
+2022-05-16 21:31:08,007 DEBUG   SenderThread:43116 [sender.py:send():122] send: summary
+2022-05-16 21:31:08,011 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file wandb-summary.json with policy end
+2022-05-16 21:31:08,011 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: poll_exit
+2022-05-16 21:31:08,012 DEBUG   SenderThread:43116 [sender.py:send():122] send: telemetry
+2022-05-16 21:31:08,802 DEBUG   SenderThread:43116 [sender.py:send():122] send: exit
+2022-05-16 21:31:08,802 INFO    SenderThread:43116 [sender.py:send_exit():200] handling exit code: 0
+2022-05-16 21:31:08,802 INFO    SenderThread:43116 [sender.py:send_exit():208] send defer
+2022-05-16 21:31:08,803 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:08,803 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: poll_exit
+2022-05-16 21:31:08,803 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:08,803 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 0
+2022-05-16 21:31:08,803 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:08,804 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:08,804 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 0
+2022-05-16 21:31:08,804 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 1
+2022-05-16 21:31:08,804 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:08,804 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 1
+2022-05-16 21:31:10,426 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,438 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,438 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 1
+2022-05-16 21:31:10,438 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 2
+2022-05-16 21:31:10,438 DEBUG   SenderThread:43116 [sender.py:send():122] send: stats
+2022-05-16 21:31:10,439 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:10,439 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 2
+2022-05-16 21:31:10,439 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,439 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,439 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 2
+2022-05-16 21:31:10,439 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 3
+2022-05-16 21:31:10,439 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:10,439 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 3
+2022-05-16 21:31:10,439 DEBUG   SenderThread:43116 [sender.py:send():122] send: summary
+2022-05-16 21:31:10,440 INFO    SenderThread:43116 [sender.py:_save_file():730] saving file wandb-summary.json with policy end
+2022-05-16 21:31:10,440 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,440 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,440 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 3
+2022-05-16 21:31:10,440 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 4
+2022-05-16 21:31:10,440 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:10,440 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 4
+2022-05-16 21:31:10,440 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,440 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,440 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 4
+2022-05-16 21:31:10,805 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: poll_exit
+2022-05-16 21:31:10,951 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 5
+2022-05-16 21:31:10,951 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,951 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: poll_exit
+2022-05-16 21:31:10,953 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:10,953 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 5
+2022-05-16 21:31:10,957 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,959 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,959 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 5
+2022-05-16 21:31:10,959 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 6
+2022-05-16 21:31:10,960 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:10,960 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 6
+2022-05-16 21:31:10,961 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:10,961 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:10,961 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 6
+2022-05-16 21:31:11,480 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 7
+2022-05-16 21:31:11,480 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:11,480 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 7
+2022-05-16 21:31:11,481 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:11,481 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:11,481 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 7
+2022-05-16 21:31:11,481 INFO    SenderThread:43116 [sender.py:send_request_defer():253] send defer: 8
+2022-05-16 21:31:11,481 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: defer
+2022-05-16 21:31:11,481 INFO    HandlerThread:43116 [handler.py:handle_request_defer():115] handle defer: 8
+2022-05-16 21:31:11,481 DEBUG   SenderThread:43116 [sender.py:send():122] send: final
+2022-05-16 21:31:11,482 DEBUG   SenderThread:43116 [sender.py:send():122] send: footer
+2022-05-16 21:31:11,482 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:11,482 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: defer
+2022-05-16 21:31:11,482 INFO    SenderThread:43116 [sender.py:send_request_defer():217] handle sender defer: 8
+2022-05-16 21:31:12,956 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: poll_exit
+2022-05-16 21:31:12,956 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:12,956 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: poll_exit
+2022-05-16 21:31:14,958 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: poll_exit
+2022-05-16 21:31:14,960 DEBUG   SenderThread:43116 [sender.py:send():122] send: request
+2022-05-16 21:31:14,960 DEBUG   SenderThread:43116 [sender.py:send_request():131] send_request: poll_exit
+2022-05-16 21:31:14,961 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: get_summary
+2022-05-16 21:31:14,962 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: sampled_history
+2022-05-16 21:31:14,962 DEBUG   HandlerThread:43116 [handler.py:handle_request():101] handle_request: shutdown
+2022-05-16 21:31:14,962 INFO    HandlerThread:43116 [handler.py:finish():535] shutting down handler
+2022-05-16 21:31:15,502 INFO    WriterThread:43116 [datastore.py:close():258] close: /Users/benho/Documents/workspace/mldevops/exercise_files/lesson-4-training-validation-experiment-tracking/exercises/exercise_11/starter/random_forest/wandb/run-20220516_213059-36etyhr3/run-36etyhr3.wandb
+2022-05-16 21:31:15,963 INFO    SenderThread:43116 [sender.py:finish():833] shutting down sender
+2022-05-16 21:31:15,964 INFO    MainThread:43116 [internal.py:handle_exit():78] Internal process exited
