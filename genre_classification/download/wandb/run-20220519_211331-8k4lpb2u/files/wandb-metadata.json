@@ -1,0 +1,31 @@
+{
+    "os": "macOS-12.3.1-arm64-arm-64bit",
+    "python": "3.8.13",
+    "heartbeatAt": "2022-05-19T13:13:31.945210",
+    "startedAt": "2022-05-19T13:13:31.240070",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--file_url",
+        "https://github.com/udacity/nd0821-c2-build-model-workflow-exercises/blob/master/lesson-2-data-exploration-and-preparation/exercises/exercise_4/starter/genres_mod.parquet?raw=true",
+        "--artifact_name",
+        "raw_data.parquet",
+        "--artifact_type",
+        "raw_data",
+        "--artifact_description",
+        "Data as downloaded"
+    ],
+    "state": "running",
+    "program": "download_data.py",
+    "codePath": "genre_classification/download/download_data.py",
+    "git": {
+        "remote": "https://github.com/minjabenho/mldevops",
+        "commit": "b2550b34433b6d5a57afffc46da5195b2d1a3b41"
+    },
+    "email": "bhgm93@gmail.com",
+    "root": "/Users/benho/Documents/workspace/mldevops",
+    "host": "Benjamins-MacBook-Pro.local",
+    "username": "benho",
+    "executable": "/Users/benho/miniforge3/envs/mlflow-dcab57294d4c8d8af89cb670ca7f21a98adaaf45/bin/python"
+}

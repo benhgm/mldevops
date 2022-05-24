@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/benho/Documents/workspace/mldevops/genre_classification/mlruns/0/5ada4cd9aff749fead386ca4bf95cad0/artifacts
+end_time: 1652966098581
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 5ada4cd9aff749fead386ca4bf95cad0
+run_uuid: 5ada4cd9aff749fead386ca4bf95cad0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1652966008938
+status: 3
+tags: []
+user_id: benho
